@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión - Infusse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+        }
+        .logo {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-container input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid white;
+            background-color: black;
+            color: white;
+            outline: none;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .input-container button {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid white;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">INFUSSE</div>
+    <div class="container">
+        <h2>Iniciar Sesión</h2>
+        <div class="input-container">
+            <input type="email" id="email" placeholder="Correo electrónico" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button id="loginButton">Iniciar Sesión</button>
+        </div>
+        <div id="message" style="color: red; margin-top: 10px;"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginButton').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email, password: password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = 'pagina-completa.html'; // Redirigir a la página completa
+                } else {
+                    document.getElementById('message').innerText = 'Credenciales incorrectas. Intenta de nuevo.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
